@@ -71,6 +71,7 @@ func main() {
 			} else if err != nil {
 				log.Println("failed to listen", err)
 			}
+			wg.Add(1)
 			go handleConnection(conn, &wg)
 		}
 	}()
@@ -85,7 +86,6 @@ func main() {
 
 func handleConnection(conn net.Conn, wg *sync.WaitGroup) {
 
-	wg.Add(1)
 	defer conn.Close()
 	// finish wg when the conn is read
 	defer wg.Done()
